@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>     
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,7 +213,10 @@
   </script>
 </head>
 <body>
- 
+
+<!-- 헤더 네이게이션 페이지 include -->
+<jsp:include page="../common/header.jsp"></jsp:include>
+
 <div class="container">
   <h2>Spring MVC03</h2>
   <div class="panel panel-default">
