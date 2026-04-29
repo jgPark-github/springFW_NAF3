@@ -214,10 +214,10 @@
 </head>
 <body>
 
+<div class="container">
 <!-- 헤더 네이게이션 페이지 include -->
 <jsp:include page="../common/header.jsp"></jsp:include>
 
-<div class="container">
   <h2>Spring MVC03</h2>
   <div class="panel panel-default">
     <div class="panel-heading">BOARD</div>
