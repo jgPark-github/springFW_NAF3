@@ -27,7 +27,7 @@
         <li><a href="#">Page 2</a></li>
       </ul>
      
-      <c:if test="${empty mvo}"> <!-- 로그인 하지않음 -->
+      <c:if test="${empty mvo}"> <!-- 로그인 하지않음(mvo는 세션) -->
 	      <ul class="nav navbar-nav navbar-right">
 	        <!-- <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> -->
 	        <!-- <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> -->
@@ -42,7 +42,7 @@
 	        </li>
 	      </ul>
       </c:if>
-      <c:if test="${!empty mvo}"> <!-- 로그인 함 -->
+      <c:if test="${!empty mvo}"> <!-- 로그인 함(mvo는 세션) -->
 	      <ul class="nav navbar-nav navbar-right">
 	        <!-- <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> -->
 	        <!-- <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> -->

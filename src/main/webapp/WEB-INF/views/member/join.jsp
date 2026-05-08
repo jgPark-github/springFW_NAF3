@@ -15,15 +15,23 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script type="text/javascript">
+  $(document).ready(function() {
+	    // msgType에 데이터가 있다면
+	    if (${!empty msgType}) {
+	        $("#messageType").attr("class", "modal-content panel-warning");
+	        $("#myMessage").modal("show");
+	    }
+	});
+
   	function registerCheck(){
-  		var memID = $("#memID").val();
-  		/* if (memID.trim() === ""){
+  		var memId = $("#memId").val();
+  		/* if (memId.trim() === ""){
   			alert("체크할 ID를 입력하세요!");
-  			$("#memID").focus();
+  			$("#memId").focus();
   			return false;
   		} */
   		
-  		 if (memID.trim() === ""){
+  		 if (memId.trim() === ""){
   		   $("#checkMessage").html("체크할 ID를 입력하세요!");
 		   $("#checkType").attr("class","modal-content panel-warning");  	
 		   $("#myModal").modal("show");
@@ -33,7 +41,7 @@
   		$.ajax({
   			url : "${contextPath}/memRegisterCheck.do",
   			type : "get",
-  			data : {"memID" : memID},
+  			data : {"memId" : memId},
   			success : function(result){
   				//ID중복체크(0:ID중복, 1:ID 사용가능)
   				alert("result: " +result);
@@ -52,6 +60,29 @@
   			}
   		})
   	}
+  	
+  	function passwordCheck(){
+  		var memPassWord1 = $("#memPassWord1").val();
+  		var memPassWord2 = $("#memPassWord2").val();
+  		
+  		if (memPassWord1 != memPassWord2){
+  			$("#passMessage").html("비밀번호가 서로 일치하지 않습니다.");
+  		} else {
+  			$("#passMessage").html("동일비번");
+  			// hidden값에 패스워드저장
+  			$("#memPassWord").val(memPassWord1);
+  		}
+  		
+  	}
+  	
+  	function goInsert(){
+  		var memAge=$("#memAge").val();
+  		if (memAge==null || memAge=="" || memAge ==0){
+  			alert("나이를 입력하세요!!");
+  			return false;
+  		}
+  		document.frm.submit(); //폼에 전송
+  	}
   </script>
 </head>
 <body>
@@ -65,11 +96,12 @@
   <div class="panel panel-default">
     <div class="panel-heading">회원가입</div>
     <div class="panel-body">
-    	<form action="${contextPath}/memRegister.do" method="post">
-    		<table class="table table-bordered" style="text-align: center; board:1px solid #dddddd;">
+    	<form name="frm" action="${contextPath}/memRegister.do" method="post">
+    	<input type="hidden" id="memPassWord" name="memPassWord"/>
+    		<table class="table table-bordered" style="text-align: center; border:1px solid #dddddd;">
     			<tr>
     				<td style="width:110px; vertical-align: middle;">아이디</td>
-    				<td><input id="memID" name="memID" class="form-control" type="text" maxlength="20" placeholder="아이디입력하세요."/></td>
+    				<td><input id="memId" name="memId" class="form-control" type="text" maxlength="20" placeholder="아이디입력하세요."/></td>
     				<td style="width:110px;"><button type="button" class="btn btn-primary btn-sm" onclick="registerCheck()">중복확인</button></td>
     			</tr>
     			<tr>
@@ -86,7 +118,7 @@
     			</tr>
     			<tr>
     				<td style="width:110px; vertical-align: middle;">나이</td>
-    				<td colspan="2"><input id="memAge" name="memAge" class="form-control" type="text" maxlength="20" placeholder="나이를 입력하세요."/></td>
+    				<td colspan="2"><input id="memAge" name="memAge" class="form-control" type="number" maxlength="20" placeholder="나이를 입력하세요." /></td>
     			</tr>
     			<tr>
     				<td style="width:110px; vertical-align: middle;">성별</td>
@@ -109,7 +141,7 @@
     			</tr>
     			<tr>
     				<td colspan="3" style="text-align: left;">
-    				<input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
+    				<span id="passMessage" style="color: red"></span><input type="button" class="btn btn-primary btn-sm pull-right" value="등록" onclick="goInsert();"/>
     				</td>
     			</tr>    			
     		</table>
@@ -136,7 +168,26 @@
 	
 	  </div>
 	</div>    
-    
+    <!-- 실패 메시지를 출력(modal) -->
+    <div id="myMessage" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div id="messageType" class="modal-content panel-info">
+	      <div class="modal-header panel-heading">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">${msgType}</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p>${msg}</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div> 
     <div class="panel-footer">스프1탄_인프론(박매일)</div>
   </div>
 </div>
