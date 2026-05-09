@@ -16,7 +16,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script type="text/javascript">
   $(document).ready(function() {
-	    // msgType에 데이터가 있다면
+	    // msgType에 데이터가 있다면 메시지 팝업
 	    if (${!empty msgType}) {
 	        $("#messageType").attr("class", "modal-content panel-warning");
 	        $("#myMessage").modal("show");
@@ -97,7 +97,8 @@
     <div class="panel-heading">회원가입</div>
     <div class="panel-body">
     	<form name="frm" action="${contextPath}/memRegister.do" method="post">
-    	<input type="hidden" id="memPassWord" name="memPassWord"/>
+    		<input type="hidden" id="memPassWord" name="memPassWord"/>
+    		
     		<table class="table table-bordered" style="text-align: center; border:1px solid #dddddd;">
     			<tr>
     				<td style="width:110px; vertical-align: middle;">아이디</td>

@@ -17,11 +17,54 @@ public class MemberController {
 		@Autowired
 		MemberMapper memberMapper;
 	    
-	   //view
+	   //회원가입
 		@RequestMapping("/memJoin.do")
 		public String memJoin() {
 			return "member/join";
 		}
+		
+		//login처리 >>로그인화면으로 이동
+		@RequestMapping("/memLoginForm.do")
+		public String memLoginForm(HttpSession session) {
+			return "member/memLoginForm";   //MainController.java
+		}
+		
+		//logOut처리
+		@RequestMapping("/memLogout.do")
+		public String memLogout(HttpSession session) {
+			session.invalidate();  //세션을 끊고
+			return "redirect:/";   //MainController.java
+		}
+		
+		/********************** 로그인 기능구현 ******************** 
+		 1)RedirectAttributes는 리다이렉트시 데이터를 전달하는 객체
+		 2)addFlashAttribute는 redirect시 1회만 전달되는 데이터 세팅
+		 3)리다이렉트 이후 자동으로 데이터삭제
+		 ***********************************************************/
+		@RequestMapping("/memLogin.do")
+		public String memLogin(Member m ,RedirectAttributes rttr ,HttpSession session) {
+			if( m.getMemId() == null || "".equals(m.getMemId().trim())
+				|| m.getMemPassWord() ==null || "".equals(m.getMemPassWord().trim())) {
+				rttr.addFlashAttribute("msgType", "실패 메시지");
+				rttr.addFlashAttribute("msg", "모든 내용을 입력해주세요.");
+			    return "redirect:/memLoginForm.do";
+			}
+			
+			//로그인시도
+			Member mvo = memberMapper.memLogin(m);
+			
+			if (mvo != null) { //로그인성공
+				rttr.addFlashAttribute("msgType", "성공 메시지");
+				rttr.addFlashAttribute("msg", "로그인에 성공했습니다.");
+				//세션에 로그인데이터 저장
+				session.setAttribute("mvo", mvo);
+			    return "redirect:/";
+			} else { //로그인실패
+				rttr.addFlashAttribute("msgType", "실패 메시지");
+				rttr.addFlashAttribute("msg", "다시 로그인 해주세요.");
+				return "redirect:/memLoginForm.do";
+			}
+		}		
 		
 		//사용자ID 체크
 		@RequestMapping("/memRegisterCheck.do")
@@ -68,7 +111,7 @@ public class MemberController {
 				rttr.addFlashAttribute("msgType", "성공 메시지.");
 				rttr.addFlashAttribute("msg", "회원가입에 성공했습니다.");
 				//성공하면 세션생성및 로그인처리, 첫페이지인 index.jsp로 리다이렉트한다.
-				session.setAttribute("mvo", m); //Member 객체를 세션에 저장. ${!empty m}
+				session.setAttribute("mvo", m); //Member 객체를 세션(session)에 저장. ${!empty m}
 				return "redirect:/";  /* '/'는 클라이언트(브라우저)에게 최상위 경로(/)로 다시 요청을 보내라고 지시하는 처리(Redirect) */
 			} else {
 				rttr.addFlashAttribute("msgType", "실패 메시지.");
@@ -78,4 +121,5 @@ public class MemberController {
 			}
 			
 		}
+		
 }

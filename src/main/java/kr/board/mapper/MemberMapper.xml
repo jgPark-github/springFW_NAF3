@@ -6,6 +6,11 @@
  	SELECT * FROM MEM_TBL WHERE MEMID=#{memId}
  </select>
   
+ <select id="memLogin" parameterType="kr.board.entity.Member"
+                       resultType="kr.board.entity.Member">
+ 	SELECT * FROM MEM_TBL WHERE MEMID=#{memId} AND MEMPASSWORD = #{memPassWord}
+ </select>
+  
  <insert id="register" parameterType="kr.board.entity.Member">
  	insert into mem_tbl(memIdx, memId    ,memPassWord    ,memName    ,memAge   ,memGender   ,memEmail    ,memProfile)
     values(memTbl_idx.nextval , #{memId} ,#{memPassWord} ,#{memName} ,#{memAge},#{memGender},#{memEmail} ,#{memProfile})

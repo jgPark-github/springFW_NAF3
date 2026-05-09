@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- Context Path 저장 -->
+<c:set var="contextPath" value= "${pageContext.request.contextPath}" />
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +27,15 @@
 <div class="container">
 <!-- 헤더 네이게이션 페이지 include -->
 <jsp:include page="common/header.jsp"></jsp:include>
-  <h3>Spring MVC03</h3>
+<%-- 로그인 안됐을 때 --%>
+  <c:if test ="${empty mvo}"> 
+  <h2>Spring MVC03</h3>
+  </c:if>
+<%-- 로그인 됐을 때 --%>
+  <c:if test ="${!empty mvo}">
+  <label>[사진삽입] "${mvo.memName}"님 방문을 환영합니다</label>
+  </c:if>
+  
   <p>In this example, the navigation bar is hidden on small screens and replaced by a button in the top right corner (try to re-size this window).
   <p>Only when the button is clicked, the navigation bar will be displayed.</p>
 </div>
